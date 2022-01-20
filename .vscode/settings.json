@@ -1,0 +1,5 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/3881dac5-bf90-4a8b-8fee-ab18b1501826/resourceGroups/Seg/providers/Microsoft.Web/sites/monitorizarescoli",
+    "appService.deploySubpath": "dist\\frontend",
+    "workspace.isHidden": false
+}

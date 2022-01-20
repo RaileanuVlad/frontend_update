@@ -1,0 +1,157 @@
+
+
+
+<div class="container" *ngIf="scoalaCurenta.nrInreg == null">
+  <div class="card mt-4">
+    <h4 class="card-header" type="button" (click)="cpas1()">Pas 1 - Informații despre școala <span *ngIf="!pas1"
+        style="float:right">Apăsați pentru a extinde!</span><span *ngIf="pas1" style="float:right">Apăsați pentru a
+        inchide!</span> </h4>
+    <div class="card-body" *ngIf="pas1">
+      <button class="round-button bx" (click)="showModal()"><span>Date<br>generale</span></button>
+      <button class="round-button b2" (click)="showModalExtra(unitatiId[0])"><span>Date<br>adiționale</span></button>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="container" *ngIf="scoalaCurenta.nrInreg == null">
+  <div class="card mt-4">
+    <h4 class="card-header" type="button" (click)="cpas2()">Pas 2 - Informații despre structuri si clasele lor <span
+        *ngIf="!pas2" style="float:right">Apăsați pentru a extinde!</span><span *ngIf="pas2" style="float:right">Apăsați
+        pentru a inchide!</span></h4>
+
+    <div class="card-body" *ngIf="pas2">
+
+      <button mat-raised-button (click)="showModalAdd()"
+        style="float:right; font-size:15px; background-color: rgb(0, 200, 200); color:white; border-radius:20px">
+        Structură arondata nouă</button>
+      <br><br>
+      <!-- <mat-tab-group mat-align-tabs="center">-->
+
+      <ng-container *ngFor="let unitate of scoalaCurenta.unitateNume; let i=index">
+        <ng-container *ngIf="scoalaCurenta.unitateModerator[i]!=string2">
+          <!--<mat-tab label="{{unitate}}" >-->
+          <h1>{{unitate}}</h1>
+          <button class="round-button b1"
+            (click)="showModalStructura(unitatiId[i])"><span>Date<br>structură</span></button>
+          <button class="round-button bn" (click)="showModalUnitate(unitatiId[i])"><span>Număr<br>clase</span></button>
+          <button class="round-button b2"
+            (click)="showModalClase(unitatiId[i])"><span>Informații<br>clase</span></button>
+          <br><br>
+
+          <button class="stergeU" [disabled]="i==0" mat-raised-button (click)="showModalDelete(unitatiId[i], unitate)">
+            <span *ngIf="i!=0">Șterge această structură</span>
+            <span *ngIf="i==0">Nu puteți șterge structura principală</span>
+          </button>
+          <br><br>
+          <!--</mat-tab>-->
+        </ng-container>
+      </ng-container>
+      <!--</mat-tab-group>-->
+    </div>
+  </div>
+</div>
+
+
+
+<div class="container">
+  <div class="card mt-4">
+    <h4 class="card-header" type="button" (click)="cpas4()">
+
+      <ng-container *ngIf="scoalaCurenta.nrInreg == null">Pas 3 - Semnătura fizică</ng-container>
+      <ng-container *ngIf="scoalaCurenta.nrInreg != null">Verificarea datelor</ng-container>
+      
+      <span *ngIf="!pas4"
+        style="float:right">Apăsați pentru a extinde!</span><span *ngIf="pas4" style="float:right">Apăsați pentru a
+        inchide!</span></h4>
+    <div class="card-body" *ngIf="pas4">
+
+      <p style="font-size:14px">Pentru ca datele introduse în aplicație să fie luate în considerare, trebuie să
+        descărcați SCRISOAREA, să o printați, completați(inclusiv semnatura directorului) si să o incărcați.<br>
+        Este pus la dispoziție si un buton de descărcare pentru Anexa 1 care conține toate datele introduse în
+        aplicatie.<br>
+        <span style="color:#DD3333">Anexa 1 nu va fi încărcată pe site, aceasta este doar pentru vizualizarea datelor.
+          Doar scrisoarea semnata trebuie încărcată pe site.<br>
+        </span><br><br>
+
+        <span>Progres total Pas 1: <span [class.verde]="scoalaCurenta.uProcent==100"
+            [class.rosu]="scoalaCurenta.uProcent < 100">{{scoalaCurenta.uProcent}}%</span></span><br>
+        <span>Progres total Pas 2: <span [class.verde]="scoalaCurenta.cProcent==100"
+            [class.rosu]="scoalaCurenta.cProcent < 100">{{scoalaCurenta.cProcent}}%</span></span> <br>
+        <span>Număr total de elevi în școală, învățământ primar și gimnazial(toate structurile)(introdus la Pas 1):
+          <span [class.verde]="scoalaCurenta.total==scoalaCurenta.checked"
+            [class.rosu]="scoalaCurenta.total!=scoalaCurenta.checked">{{scoalaCurenta.total}}</span></span> <br>
+        <span>SUMA numerelor totale de elevi în structură, învățământ primar și gimnazial (introduse la Pas 2): <span
+            [class.verde]="scoalaCurenta.total==scoalaCurenta.checked"
+            [class.rosu]="scoalaCurenta.total!=scoalaCurenta.checked">{{scoalaCurenta.checked}}</span></span> <br>
+        <button class="btn btn-success btn-block" style="width:20%; margin:auto" (click)="refresh()">Refresh</button>
+
+      </p>
+
+
+      <button type="button" class="round-button b1"
+        [disabled]="!complet || scoalaCurenta.nrInreg != null || scoalaCurenta.total!=scoalaCurenta.checked"
+        onclick="location.href='https://dovezi.blob.core.windows.net/resources/DeSemnat.pdf?sv=2020-04-08&st=2021-07-05T07%3A22%3A52Z&se=2025-07-06T07%3A22%3A00Z&sr=b&sp=r&sig=p0vDjmq%2F7EPdnXVH5Fd5z31SUD3aOymKa%2BYdRb8dmyU%3D'">
+        <span>Descarcă<br>scrisoarea</span></button>
+      <input type="file" #file placeholder="Choose file" (click)="resetProgress()" (change)="uploadFile(file.files)"
+        style="display:none">
+      <button class="round-button bn"
+        [disabled]="!complet || scoalaCurenta.nrInreg != null || scoalaCurenta.total!=scoalaCurenta.checked"
+        (click)="file.click()"><span>Incarcă<br>scrisoarea<br>semnată</span></button>
+      <span class="upload" *ngIf="progress > 0">
+        {{progress}}%
+      </span>
+      <span class="upload" *ngIf="progress ==100">
+        Incărcare completă!
+      </span>
+      <button class="round-button b2" (click)="showModalPdf()"><span>Anexa 1</span></button>
+      <button class="round-button b2" (click)="showModalExplicatie()"><span>Explicații<br>opționale</span></button>
+      <span *ngIf="!complet" style="color:#DD3333">Vă rugăm să introduceți complet toate datele cerute pentru a putea
+        descărca, semna și incărca scrisoarea.<br>
+        Cele 3 chestionare trebuie completate pentru fiecare structură componentă școlii in parte.
+      </span>
+      <span *ngIf="scoalaCurenta.total!=scoalaCurenta.checked" style="color:#DD3333">Vă rugăm să vă asigurați că "Număr
+        total de elevi în școală, învățământ primar și gimnazial(toate structurile)(introdus la Pas 1)" este egal cu
+        "SUMA numerelor totale de elevi în structură, învățământ primar și gimnazial (introduse la Pas 2)" <br>
+      </span>
+    </div>
+  </div>
+</div>
+
+
+<div class="container" *ngIf="scoalaCurenta.nrInreg != null">
+  <div class="card mt-4">
+    <h4 class="card-header" type="button" (click)="cpas1()">Chestionarul 1 a fost închis.</h4>
+    <div class="card-body">
+      <h1>Chestionarul 1 fost înregistrat în sistemul de monitorizare cu numărul {{scoalaCurenta.nrInreg}}<br>
+        <a *ngIf="scoalaCurenta.semnatura" href={{scoalaCurenta.semnatura}} class="btn btn-success btn-block"
+          style="width:20%; margin:auto" target="_blank">Semnătură</a>
+      </h1>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="container">
+  <div class="card mt-4">
+    <h4 class="card-header" type="button" (click)="cpas3()">Pas 4 - Organizarea procesului de monitorizare a
+      segregării
+      școlare <span *ngIf="!pas3" style="float:right">Apăsați pentru a extinde</span><span *ngIf="pas3"
+        style="float:right">Apăsați pentru a inchide!</span></h4>
+    <div class="card-body" *ngIf="pas3">
+      <button class="round-button b3" (click)="showModalOrganizare()" [disabled]="c2finished"><span>Chestionar 2</span></button>
+    </div>
+  </div>
+</div>
+<app-info-modal #infoModal></app-info-modal>
+<app-add-modal #addModal (change)="changeE()"></app-add-modal>
+<app-structura-modal #structuraModal></app-structura-modal>
+<app-info-unitate-modal #infoUnitateModal></app-info-unitate-modal>
+<app-extra-unitate-modal #extraUnitateModal></app-extra-unitate-modal>
+<app-clase-modal #claseModal></app-clase-modal>
+<app-delete-modal #deleteModal (change)="changeE()"></app-delete-modal>
+<app-organizare-modal #organizareModal></app-organizare-modal>
+<app-pdf-modal #pdfModal></app-pdf-modal>
+<app-explicatie-modal #explicatieModal></app-explicatie-modal>
